@@ -1,33 +1,37 @@
 package logic_pipeFilter;
 
-import java.io.EOFException;
-
 /**
- * 
+ * class CircularShifter: filter connected with a pipe to the output stream of Input filter. 
+ * Thus, the lines produced by Input filter serve as input for CircularShifter filter. 
+ * CircularShifter processes the input lines producing circular shifts of those lines. 
+ * The produced shifts are written to the CircularShifter's output stream.
  * @author Zhang Ji
  * 
  */
 public class CircularShifter extends Filter {
 
 	public void run() {
-		while (true) {
-			
+		Debugger.print("START CIRCULAR SHIFTE FILTER");
+		while (!isEmpty()) {
 				String s = read();
 				String tokens[] = s.split("\\s");
-
+				
 				for(int i = 0; i < tokens.length; i++) {
 					StringBuilder sb = new StringBuilder();
 					for(int j = 0; j < tokens.length; j++) {
 						sb.append(tokens[j]);
-						sb.append(" ");
+						if(j != tokens.length -1) {
+							sb.append(" ");
+						}
 					}
-					sb.append("\n");
 					shiftLeft(tokens);
 					write(sb.toString());
+					Debugger.print(sb.toString());
 				}
 
 			
 		}
+		Debugger.print("END CIRCULAR SHIFTER FILTER");
 	}
 	
 	/**

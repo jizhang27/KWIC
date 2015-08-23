@@ -4,9 +4,9 @@ import java.util.LinkedList;
 
 /**
  * 
- * Class: Pipe
+ * Class Pipe: The connectors of filters to merge the streams together
  * @author Zhang Ji
- * The connectors of filters to merge the streams together
+ * 
  * 
  */
 public class Pipe {
@@ -23,6 +23,12 @@ public class Pipe {
 	 */
 	public void write(String s) {
 		buffer.add(s);
+	}
+	/**
+	 * tell whether pipe is empty 
+	 */
+	public boolean isEmpty() {
+		return buffer.isEmpty();
 	}
 	
 	/**
