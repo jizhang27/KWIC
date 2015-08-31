@@ -12,7 +12,7 @@ public class CircularShifterStorage extends Observable{
 	public void generateEvent(ChangeEvent event){
 		if(event.getType() == 1 || event.getType() == 2){
 			lines.setLines(event.getArg());
-			int size = lines.getLine(0).length();
+			int size = lines.getLine(0).split(" ").length;
 			for(int i = 1; i < size; i++){
 				lines.addLine(shift(lines.getLine(i - 1)));
 			}
@@ -40,6 +40,14 @@ public class CircularShifterStorage extends Observable{
 
 	// tools
 	private LineStorage filter(LineStorage lines){
-		return null;
+		int size = lines.size();
+		for(int i = 0; i < size; i++){
+			if(MasterControl.ignoreFilter(getFirstWord(lines.getLine(i)))){
+				lines.deleteLine(i);
+				i--;
+				size--;
+			}
+		}
+		return lines;
 	}
 }

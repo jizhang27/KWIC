@@ -52,6 +52,14 @@ public class LineStorage {
 		return lines.size() - 1;
 	}
 	
+	public int insertLine(String newLine, int index){
+		if(index > lines.size()){
+			return -1;
+		}
+		lines.add(index, newLine);
+		return index;
+	}
+	
 	public boolean deleteLine(int index){
 		try{
 			lines.remove(index);

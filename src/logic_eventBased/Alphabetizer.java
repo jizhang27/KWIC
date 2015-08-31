@@ -13,8 +13,10 @@ public class Alphabetizer implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		// display
-		
+		if(o instanceof AlphabetizerStorage && arg instanceof ChangeEvent){
+			str = ((ChangeEvent)arg).getArg();
+			MasterControl.modifyOutput(str);
+		}
 	}
 
 }

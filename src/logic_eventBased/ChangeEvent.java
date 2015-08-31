@@ -11,12 +11,6 @@ public class ChangeEvent {
 	private ArrayList<String> arg;
 	private int index;
 	
-	public ChangeEvent(int type, ArrayList<String> arg){
-		this.type = type;
-		this.arg = arg;
-		this.index = -1;
-	}
-	
 	public ChangeEvent(int type, ArrayList<String> arg, int index){
 		this.type = type;
 		this.arg = arg;
