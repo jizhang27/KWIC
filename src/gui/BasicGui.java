@@ -313,4 +313,11 @@ public class BasicGui extends JFrame {
 		}
 	}
 	
+	public void showModalDialog() {
+		
+	}
+	
+	public void dismissModalDialog() {
+		
+	}
 }
