@@ -37,7 +37,8 @@ public class CircularShifterStorage extends Observable{
 	}
 	
 	private String removeFirstWord(String str){
-		return str.replaceFirst(getFirstWord(str), "").trim();
+		int sizeFirst = getFirstWord(str).length();
+		return str.substring(sizeFirst, str.length()).trim();
 	}
 	
 

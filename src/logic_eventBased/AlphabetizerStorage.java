@@ -37,8 +37,6 @@ public class AlphabetizerStorage extends Observable{
 	}
 	
 	private void insert(String input){
-
-		System.out.println(input);
 		int size = lines.size();
 		for(int i = 0; i< size; i++){
 			if(input.compareToIgnoreCase(lines.getLine(i)) < 0){

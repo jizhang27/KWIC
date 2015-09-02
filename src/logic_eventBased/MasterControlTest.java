@@ -33,7 +33,7 @@ public class MasterControlTest {
 		test.run(1, "the Lion King", test.getKey());
 		String result = test.getOutput();
 		int resultIndex = test.getKey();
-		assertEquals(result, "King the Lion \r\nLion King the \r\n");
+		assertEquals(result, "KING the lion \r\nLION king the \r\n");
 		assertEquals(resultIndex, 1);
 	}
 	
@@ -47,7 +47,7 @@ public class MasterControlTest {
 		test.run(2, "the Tiger King", 0);
 		String result = test.getOutput();
 		int resultIndex = test.getKey();
-		assertEquals(result, "King the Tiger \r\nTiger King the \r\n");
+		assertEquals(result, "KING the tiger \r\nTIGER king the \r\n");
 		assertEquals(resultIndex, 1);
 	}
 	
@@ -58,10 +58,10 @@ public class MasterControlTest {
 		String ig = "a an the";
 		test.editIgnoreWord(ig);
 		test.run(1, "the Lion King", test.getKey());
-		test.run(3, null, 0);
+		test.run(3, "", 0);
 		String result = test.getOutput();
 		int resultIndex = test.getKey();
 		assertEquals(result, "");
-		assertEquals(resultIndex, 0);
+		assertEquals(resultIndex, 1);
 	}
 }
