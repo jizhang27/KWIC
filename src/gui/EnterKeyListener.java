@@ -2,7 +2,10 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
+
+import logic_pipeFilter.Debugger;
 
 /**
  * <code>EnterKeyListener</code> is a class implements ActionListener. 
@@ -24,8 +27,11 @@ class EnterKeyListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		String inputCommand =input.getText().trim(); 
-		input.setText(EMPTY_STRING);
-		GuiController.AddLine(inputCommand);
+		if(!inputCommand.equalsIgnoreCase(EMPTY_STRING)) {
+			Debugger.print("input command: " + inputCommand);
+			GuiController.AddLine(inputCommand);
+			input.setText(EMPTY_STRING);
+		}
 
 	}
 }

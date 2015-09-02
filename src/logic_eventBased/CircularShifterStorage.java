@@ -1,12 +1,15 @@
 package logic_eventBased;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 public class CircularShifterStorage extends Observable{
 	private LineStorage lines;
+	private ArrayList<String> IgnoreWord;
 	
 	public CircularShifterStorage(){
 		lines = new LineStorage();
+		IgnoreWord = new ArrayList<String>();
 	}
 	
 	public void generateEvent(ChangeEvent event){
@@ -39,10 +42,31 @@ public class CircularShifterStorage extends Observable{
 	
 
 	// tools
-	private LineStorage filter(LineStorage lines){
+	public boolean ignoreFilter(String firstword){
+		return IgnoreWord.contains(firstword.toLowerCase());
+	}
+	
+	public String getIgnoreWordList(){
+		String str = new String();
+		int size = IgnoreWord.size();
+		for(int i = 0; i< size; i++){
+			str += (IgnoreWord.get(i) + " ");
+		}
+		return str.trim();
+	}
+	
+	public void editIgnoreWord(String newWordList){
+		String[] words = newWordList.trim().split(" ");
+		int size = words.length;
+		for(int i = 0; i < size; i++){
+			IgnoreWord.add(words[i]);
+		}
+	}
+	
+	public LineStorage filter(LineStorage lines){
 		int size = lines.size();
 		for(int i = 0; i < size; i++){
-			if(MasterControl.ignoreFilter(getFirstWord(lines.getLine(i)))){
+			if(ignoreFilter(getFirstWord(lines.getLine(i)))){
 				lines.deleteLine(i);
 				i--;
 				size--;

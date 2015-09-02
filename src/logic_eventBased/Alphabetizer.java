@@ -11,11 +11,14 @@ public class Alphabetizer implements Observer {
 		str = new ArrayList<String>();
 	}
 	
+	public ArrayList<String> getStr(){
+		return str;
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof AlphabetizerStorage && arg instanceof ChangeEvent){
 			str = ((ChangeEvent)arg).getArg();
-			MasterControl.modifyOutput(str);
 		}
 	}
 

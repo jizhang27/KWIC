@@ -29,7 +29,7 @@ public class AlphabetizerStorage extends Observable{
 			int size = inputstr.size();
 			for(int i = 0; i < size; i++){
 				insert(inputstr.get(i) + " " + event.getIndex());
-			}		
+			}
 		}
 		event.setArg(lines.getLines());
 		this.setChanged();
@@ -37,15 +37,15 @@ public class AlphabetizerStorage extends Observable{
 	}
 	
 	private void insert(String input){
+
+		System.out.println(input);
 		int size = lines.size();
-		if(size == 0){
-			lines.insertLine(input, 0);
-		}
 		for(int i = 0; i< size; i++){
 			if(input.compareToIgnoreCase(lines.getLine(i)) < 0){
 				lines.insertLine(input, i);
 				return;
 			}
 		}
+		lines.addLine(input);
 	}
 }

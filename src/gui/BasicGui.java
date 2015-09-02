@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Dimension;
@@ -16,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
-/**
+/**re:Enter your command here:
  * class BasicGUI: contains the all visual composition and structure of GUI
  * 
  * <p>
@@ -48,13 +49,17 @@ public class BasicGui extends JFrame {
 	private JTextField titleWindow;
 	private JButton editIngoredWordBtn;
 	private JButton toggleModeBtn;
-	
+	private JButton fileImportBtn;
 
 	private JPanel mainArea;
 	private JPanel mainPanel;
-	private JScrollPane scrollPanel;
+	private JPanel contentPanel;
+	private JPanel inputPanel;
+	
+	private JScrollPane scrollPane;
 	private JTextArea resultWindow;
 
+	private JFrame modalDialog;
 	
 	private JTextField inputWindow;
 
@@ -151,7 +156,9 @@ public class BasicGui extends JFrame {
 		constructResultWindow();
 
 		constructscrollPanel();
+		constructInputPanel();
 		constructInputWindow();
+		constructModalDialog();
 		
 		validate();
 	}
@@ -209,7 +216,7 @@ public class BasicGui extends JFrame {
 		mainArea.setOpaque(true);
 		mainArea.setLayout(new BorderLayout(0, 0));
 		Dimension d = new Dimension(FRAME_WIDTH, FRAME_HEIGHT - MENU_AREA_HEIGHT);
-		mainArea.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+		//mainArea.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 		mainArea.setSize(d);
 		mainArea.setMinimumSize(d);
 		mainArea.setMaximumSize(d);
@@ -241,7 +248,7 @@ public class BasicGui extends JFrame {
 		resultWindow.setLineWrap(true);
 		//resultWindow.setWrapStyleWord(true);
 		resultWindow.setBorder(BorderFactory.createLineBorder(Color.blue, 1));
-		resultWindow.setText("这里是result---------------------------------------------------------------------------");
+		resultWindow.setText("Result:");
 		Dimension d = new Dimension(mainArea.getSize().width/2,mainArea.getSize().height);
 		resultWindow.setMinimumSize(d);
 		resultWindow.setMaximumSize(d);
@@ -252,32 +259,58 @@ public class BasicGui extends JFrame {
 	}
 	
 	private void constructscrollPanel() {
-		scrollPanel = new JScrollPane();
 		
-		mainPanel.add(scrollPanel, BorderLayout.CENTER);
+		contentPanel = new JPanel();
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
+		
+		scrollPane = new JScrollPane(contentPanel);
+		scrollPane.setBorder(BorderFactory.createLineBorder(Color.green, 1));
+		Dimension d = new Dimension(FRAME_WIDTH/2, FRAME_HEIGHT - MENU_AREA_HEIGHT);
+		
+		scrollPane.setSize(d);
+		scrollPane.setMinimumSize(d);
+		scrollPane.setMaximumSize(d);
+		scrollPane.setPreferredSize(d);
+		scrollPane.setAlignmentX(LEFT_ALIGNMENT);
+		scrollPane.setAutoscrolls(true);
+		
+		mainPanel.add(scrollPane, BorderLayout.CENTER);
 	}
 
 
 
-
-
-	private void constructInputWindow() {
-		inputWindow = new JTextField();
-		inputWindow.setOpaque(true);
-		inputWindow.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-		inputWindow.setText(inputWindowHelperText);
-		inputWindow.selectAll();
+	private void constructInputPanel() {
 		Dimension d = new Dimension(INPUT_AREA_WIDTH, INPUT_AREA_HEIGHT);
 		
+		inputPanel = new JPanel();
+		inputPanel.setMinimumSize(d);
+		inputPanel.setMaximumSize(d);
+		inputPanel.setSize(d);
+		inputPanel.setPreferredSize(d);
+		inputPanel.setLayout(new BorderLayout());
+		mainPanel.add(inputPanel, BorderLayout.SOUTH);
+	}
+
+	private void constructInputWindow() {
+		
+		
+		
+		fileImportBtn = new JButton("import");
+		fileImportBtn.addActionListener(new ImportFileButtonListener(this));
+		inputPanel.add(fileImportBtn,  BorderLayout.WEST);
+
+		inputWindow = new JTextField();
+		inputWindow.setOpaque(true);
+//		inputWindow.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+		inputWindow.setText(inputWindowHelperText);
+		inputWindow.selectAll();
 		inputWindow.addActionListener(new EnterKeyListener(inputWindow));
-		
-		inputWindow.setMinimumSize(d);
-		inputWindow.setMaximumSize(d);
-		inputWindow.setSize(d);
-		inputWindow.setPreferredSize(d);
-		
-		mainPanel.add(inputWindow, BorderLayout.SOUTH);
+			
+		inputPanel.add(inputWindow, BorderLayout.CENTER);
 		inputWindow.requestFocus();
+		
+		
+		
 		
 		
 	}
@@ -297,27 +330,60 @@ public class BasicGui extends JFrame {
 		resultWindow.setText(res);
 	}
 	public void addInputLine(String text, int key) {
-		InputLine line = new InputLine( this,text, key);
-		scrollPanel.add(line);
+		InputLine line = new InputLine(text, key, contentPanel.getWidth(), 30);
+		contentPanel.add(line);
+		
+		
+		
 	}
 	public void removeInputLine(InputLine line) {
-		scrollPanel.remove(line);
-		// call logic to remove at backend
+		contentPanel.remove(line);
+		contentPanel.updateUI();
+		
+	}
+	
+	public void clearInputLine() {
+		contentPanel.removeAll();
+		contentPanel.updateUI();
+		
 	}
 	
 	public void setToggleButtonLabel(boolean isPipeFilter) {
 		if(isPipeFilter) {
-			toggleModeBtn.setText(switchBtn_pipeFilter);
-		} else  {
 			toggleModeBtn.setText(switchBtn_ImplicitInvocation);
+		} else  {
+			toggleModeBtn.setText(switchBtn_pipeFilter);
 		}
 	}
-	
+	private void constructModalDialog() {
+		modalDialog = new JFrame("In Progress");
+		modalDialog.setBounds(100, 200, 800, 400);
+		modalDialog.setLayout(new BorderLayout());
+		JLabel l = new JLabel("Calculation in progress, please wait! Calculation in progress, please wait!Calculation in progress, please wait! Calculation in progress, please wait!Calculation in progress, please wait! Calculation in progress, please wait!");
+		modalDialog.add(l, BorderLayout.CENTER);
+
+	}
 	public void showModalDialog() {
-		
+				modalDialog.setVisible(true);
+		modalDialog.requestFocus();
 	}
 	
 	public void dismissModalDialog() {
+		modalDialog.setVisible(false);
+	}
+	 
+
+	public String getAllLines() {
+		String output="";
+		int count = contentPanel.getComponentCount();
+		for(int i=0; i<count; i++) {
+			Component comp  = contentPanel.getComponent(i);
+			if (comp instanceof  InputLine)  {
+				output += ((InputLine)comp).getValue() + "\n";
+			}
+			
+		}
 		
+		return output;
 	}
 }

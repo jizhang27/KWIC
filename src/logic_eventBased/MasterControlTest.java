@@ -8,54 +8,59 @@ public class MasterControlTest {
 
 	@Test
 	public void test1() {
-		MasterControl .initialize();
-		int result = MasterControl.getKey();
+		MasterControl test = new MasterControl();
+		test.initialize();
+		int result = test.getKey();
 		assertEquals(result, 0);
 	}
 
 	@Test
 	public void test2() {
-		MasterControl .initialize();
+		MasterControl test = new MasterControl();
+		test.initialize();
 		String ig = "a an the";
-		MasterControl.editIgnoreWord(ig);
-		String result = MasterControl.getIgnoreWordList();
+		test.editIgnoreWord(ig);
+		String result = test.getIgnoreWordList();
 		assertEquals(result, ig);
 	}
 	
 	@Test
 	public void test3() {
-		MasterControl.initialize();
+		MasterControl test = new MasterControl();
+		test.initialize();
 		String ig = "a an the";
-		MasterControl.editIgnoreWord(ig);
-		MasterControl.run(1, "the Lion King", MasterControl.getKey());
-		String result = MasterControl.getOutput();
-		int resultIndex = MasterControl.getKey();
+		test.editIgnoreWord(ig);
+		test.run(1, "the Lion King", test.getKey());
+		String result = test.getOutput();
+		int resultIndex = test.getKey();
 		assertEquals(result, "King the Lion \r\nLion King the \r\n");
 		assertEquals(resultIndex, 1);
 	}
 	
 	@Test
 	public void test4() {
-		MasterControl.initialize();
+		MasterControl test = new MasterControl();
+		test.initialize();
 		String ig = "a an the";
-		MasterControl.editIgnoreWord(ig);
-		MasterControl.run(1, "the Lion King", MasterControl.getKey());
-		MasterControl.run(2, "the Tiger King", 0);
-		String result = MasterControl.getOutput();
-		int resultIndex = MasterControl.getKey();
+		test.editIgnoreWord(ig);
+		test.run(1, "the Lion King", test.getKey());
+		test.run(2, "the Tiger King", 0);
+		String result = test.getOutput();
+		int resultIndex = test.getKey();
 		assertEquals(result, "King the Tiger \r\nTiger King the \r\n");
 		assertEquals(resultIndex, 1);
 	}
 	
 	@Test
 	public void test5() {
-		MasterControl.initialize();
+		MasterControl test = new MasterControl();
+		test.initialize();
 		String ig = "a an the";
-		MasterControl.editIgnoreWord(ig);
-		MasterControl.run(1, "the Lion King", MasterControl.getKey());
-		MasterControl.run(3, null, 0);
-		String result = MasterControl.getOutput();
-		int resultIndex = MasterControl.getKey();
+		test.editIgnoreWord(ig);
+		test.run(1, "the Lion King", test.getKey());
+		test.run(3, null, 0);
+		String result = test.getOutput();
+		int resultIndex = test.getKey();
 		assertEquals(result, "");
 		assertEquals(resultIndex, 0);
 	}

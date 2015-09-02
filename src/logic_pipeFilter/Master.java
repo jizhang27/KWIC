@@ -1,20 +1,22 @@
 package logic_pipeFilter;
 
+import logic_eventBased.MainLogic;
+
 /**
  * class Master
  * The master control of main logic in the KWIC system.
  * @author Zhang Ji
  * 
  */
-public class Master {
+public class Master implements MainLogic {
 	
 	private Pipeline pipeline;
 	private String lines_;
 	private String words_="";
 	
 
-	
-	private String run() {
+	@Override
+	public void calculate() {
 		pipeline = new Pipeline(
 				new Input(),
 				new Output(),
@@ -25,35 +27,56 @@ public class Master {
 		pipeline.setStartPipe(lines_);
 		Debugger.print("setup finished");
 		pipeline.run();
-		return pipeline.getResult();
+		
 	}
 	/**
 	 * method changeIngoredWords: change ignored word list
 	 * @param words: String of words delimited by space
 	 * @returns result String 
 	 */
-	public String changeIngoredWords(String words) {
+	public void changeIngoredWords(String words) {
 		words_ = words;
-		return run();
+		
 	}
 	/**
 	 * method changeIngoredWords: change input line
 	 * @param words: String of lines delimited by new line
 	 * @returns result String 
 	 */
-	public String changeLines(String lines) {
+	public void changeLines(String lines) {
 		lines_ = lines;
-		return run();
 	}
 	
-	public static void main(String[] args) {
-		Master test = new Master();
-		String words = "a b c d\n1 2 3 4\n42314214 i love u";
-		String ignored = "1 b b aa c";
-		test.changeLines(words);
-		String result = test.changeIngoredWords(ignored);
+	
+	@Override
+	public void initialize() {
 		
-		System.out.println(result);
+		// do nothing
+	}
+	@Override
+	public int getKey() {
+		return 0;
+	}
+	@Override
+	public void editIgnoreWord(String newWordList) {
+		changeIngoredWords(newWordList);
+	}
+	// type = 0; get string itself
+	@Override
+	public void run(int type, String input, int key) {
+		if (type == 0) {
+			this.lines_ = input;
+		} else {
+			Debugger.print("error type code");
+		}
+	}
+	@Override
+	public String getOutput() {
+		return pipeline.getResult();
+	}
+	@Override
+	public String getIgnoreWordList() {
+		return words_;
 	}
 	
 }

@@ -2,16 +2,19 @@ package logic_eventBased;
 
 import java.util.ArrayList;
 
-public class MasterControl {
-	private static int lineNum;
-	private static ArrayList<String> output;
-	private static CircularShifterStorage CSobservable;
-	private static CircularShifter CSobserver;
-	private static AlphabetizerStorage ABobservable;
-	private static Alphabetizer ABobserver;
-	private static ArrayList<String> IgnoreWord;
+public class MasterControl implements MainLogic{
+	private int lineNum;
+	private ArrayList<String> output;
+	private CircularShifterStorage CSobservable;
+	private CircularShifter CSobserver;
+	private AlphabetizerStorage ABobservable;
+	private Alphabetizer ABobserver;
 	
-	private static void generateEvent(int type, String input, int lineNum){
+	public MasterControl(){
+		
+	}
+	
+	private void generateEvent(int type, String input, int lineNum){
 		ArrayList<String> str = new ArrayList<String>();
 		str.add(input);
 		ChangeEvent event = new ChangeEvent(type, str, lineNum); 
@@ -19,79 +22,78 @@ public class MasterControl {
 		CSobservable.generateEvent(event);
 	}
 
-	private static void updateLineNum(int type) {
+	private void updateLineNum(int type) {
 		if(type == ChangeEvent.ADD){
 			lineNum++;
-		} else if (type == ChangeEvent.DELETE){
-			lineNum--;
 		}
 	}
 	
-	public static CircularShifterStorage getCSobservable() {
+	public CircularShifterStorage getCSobservable() {
 		return CSobservable;
 	}
 
-	public static CircularShifter getCSobserver() {
+	public CircularShifter getCSobserver() {
 		return CSobserver;
 	}
 
-	public static AlphabetizerStorage getABobservable() {
+	public AlphabetizerStorage getABobservable() {
 		return ABobservable;
 	}
 
-	public static Alphabetizer getABobserver() {
+	public Alphabetizer getABobserver() {
 		return ABobserver;
 	}
 	
-	public static void modifyOutput(ArrayList<String> newStr){
-		output = newStr;
+	public void modifyOutput(){
+		output = ABobserver.getStr();
 	}
 	
-	public static boolean ignoreFilter(String firstword){
-		return IgnoreWord.contains(firstword.toLowerCase());
-	}
-	
-	public static String getIgnoreWordList(){
-		String str = new String();
-		int size = IgnoreWord.size();
-		for(int i = 0; i< size; i++){
-			str += (IgnoreWord.get(i) + " ");
-		}
-		return str.trim();
-	}
-	
+
+
 	// for GUI
-	public static int getKey(){
+	@Override
+	public String getIgnoreWordList(){
+		return CSobservable.getIgnoreWordList();
+	}
+	
+	@Override
+	public int getKey(){
 		return lineNum;
 	}
 	
-	public static void editIgnoreWord(String newWordList){
-		String[] words = newWordList.trim().split(" ");
-		int size = words.length;
-		for(int i = 0; i < size; i++){
-			IgnoreWord.add(words[i]);
-		}
+	@Override
+	public void editIgnoreWord(String newWordList){
+		CSobservable.editIgnoreWord(newWordList.toLowerCase());
 	}
 
-	public static void run(int type, String input, int lineNum){
-		generateEvent(type, input, lineNum);
+	@Override
+	public void run(int type, String input, int lineNum){
+		generateEvent(type, input.toLowerCase(), lineNum);
+		ABobservable.generateEvent(CSobserver.getEvent());
+		modifyOutput();
 	}
 	
-	public static String getOutput(){
+	@Override
+	public String getOutput(){
 		int size = output.size();
 		String str = new String();
 		for(int i = 0; i < size; i++){
 			String[] temp = output.get(i).split(" ");
 			int tempSize = temp.length;
 			for(int j = 0; j < tempSize - 1; j++){
-				str += (temp[j] + " ");
+				String s = temp[j];
+				if(j == 0){
+					s = s.toUpperCase();
+				}
+				str += (s + " ");
 			}
 			str += "\r\n";
 		}
 		return str;
 	}
 	
-	public static void initialize(){
+	@Override
+	public void initialize(){
 		lineNum = 0;
 		output = new ArrayList<String>();;
 		CSobservable = new CircularShifterStorage();
@@ -100,6 +102,14 @@ public class MasterControl {
 		ABobserver = new Alphabetizer();
 		CSobservable.addObserver(CSobserver);
 		ABobservable.addObserver(ABobserver);
-		IgnoreWord = new ArrayList<String>();
 	}
+
+	@Override
+	public void calculate() {
+		LineStorage temp = new LineStorage(output);
+		temp = CSobservable.filter(temp);
+		output = temp.getLines();
+	}
+	
+	
 }
