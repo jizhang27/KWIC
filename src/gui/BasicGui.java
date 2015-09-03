@@ -77,9 +77,9 @@ public class BasicGui extends JFrame {
 	private final static int INPUT_AREA_WIDTH = FRAME_WIDTH/2;
 	private final static int INPUT_AREA_HEIGHT = 30;
 
-	String switchBtn_pipeFilter = "Switch to Pipe & Filter";
-	String switchBtn_ImplicitInvocation = "Switch to Implicit Invocation";
-	String inputWindowHelperText = "Enter your command here:";
+	String switchBtn_pipeFilter = "Switch to Pipe & Filter Architecture";
+	String switchBtn_ImplicitInvocation = "Switch to Implicit Invocation Architecture";
+	String inputWindowHelperText = "Add a new line here & hit enter key";
 	// color info
 	private final static Color COLOR_TITLE_WINDOW_BACK = Color.WHITE;
 	private final static Color COLOR_TITLE_WINDOW_FORE = new Color(66, 161,
@@ -151,7 +151,7 @@ public class BasicGui extends JFrame {
 
 		constructMainArea();
 		constructMainPanel();
-		constructMainWindow();
+		
 		
 		constructResultWindow();
 
@@ -230,32 +230,46 @@ public class BasicGui extends JFrame {
 		mainPanel.setRequestFocusEnabled(false);
 		mainPanel.setOpaque(false);
 		
-		mainPanel.setDoubleBuffered(false);
+		
 		mainPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		mainPanel.setBorder(null);
 		mainPanel.setLayout(new BorderLayout(0, 0));
 
 		mainArea.add(mainPanel, BorderLayout.WEST);
-	}
-
-	private void constructMainWindow() {
+		
+		
 		
 	}
+
+	
 
 	private void constructResultWindow() {
 		resultWindow = new JTextArea();
 		resultWindow.setEnabled(false);
-		resultWindow.setLineWrap(true);
+//		resultWindow.setLineWrap(true);
 		//resultWindow.setWrapStyleWord(true);
 		resultWindow.setBorder(BorderFactory.createLineBorder(Color.blue, 1));
 		resultWindow.setText("Result:");
-		Dimension d = new Dimension(mainArea.getSize().width/2,mainArea.getSize().height);
-		resultWindow.setMinimumSize(d);
-		resultWindow.setMaximumSize(d);
-		resultWindow.setPreferredSize(d);
-		resultWindow.setOpaque(false);
+//		Dimension d = new Dimension(mainArea.getSize().width/2,mainArea.getSize().height);
+//		resultWindow.setMinimumSize(d);
+//		resultWindow.setMaximumSize(d);
+//		resultWindow.setPreferredSize(d);
+//		resultWindow.setOpaque(false);
 		//resultWindow.setBorder(null);
-		mainArea.add(resultWindow, BorderLayout.EAST);
+		
+		
+		JScrollPane sp = new JScrollPane(resultWindow);
+		sp.setVisible(true);
+		Dimension d = new Dimension(mainArea.getSize().width/2,mainArea.getSize().height);
+		sp.setMinimumSize(d);
+		sp.setMaximumSize(d);
+		sp.setPreferredSize(d);
+		sp.setAutoscrolls(true);
+		sp.validate();
+		// Add the scroll pane into the content pane
+		mainArea.add(sp, BorderLayout.EAST);
+		
+		
 	}
 	
 	private void constructscrollPanel() {
@@ -332,7 +346,7 @@ public class BasicGui extends JFrame {
 	public void addInputLine(String text, int key) {
 		InputLine line = new InputLine(text, key, contentPanel.getWidth(), 30);
 		contentPanel.add(line);
-		
+		contentPanel.updateUI();
 		
 		
 	}

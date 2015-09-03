@@ -84,6 +84,7 @@ public class GuiController {
 				 StringBuilder sb = new StringBuilder();
 				    String line = br.readLine().trim();
 
+				    gui.showModalDialog();
 				    while (line != null ) {
 				    	if(!line.equalsIgnoreCase("")) {
 				    		sb.append(line);
@@ -91,23 +92,26 @@ public class GuiController {
 					        int key = logic.getKey();
 					        gui.addInputLine(line, key);
 					        if(!isPipeFilterMode) {
-					        	gui.showModalDialog();
+					        	
 						    	logic.run(1, line, key);
-						    	gui.dismissModalDialog();
+						    	
 						    }
 				    	}
 				        line = br.readLine();
 				        
 				    }
+				    
+				    gui.dismissModalDialog();
 				    String everything = sb.toString();
 				    Debugger.print(everything);
 				    if(isPipeFilterMode) {
 				    	gui.showModalDialog();
 				    	logic.run(0, everything, 0);
-				    	updateGui();
+				    	
 				    	gui.dismissModalDialog();
 				    	
-				    } 
+				    }  
+				    updateGui();
 				    br.close();
 				    
 				    

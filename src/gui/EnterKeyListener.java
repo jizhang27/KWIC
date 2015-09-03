@@ -26,11 +26,12 @@ class EnterKeyListener implements ActionListener {
 	// once enter key is invoked, user command in the TextField will be sent
 	public void actionPerformed(ActionEvent e) {
 		
-		String inputCommand =input.getText().trim(); 
+		String inputCommand =input.getText().toString().trim(); 
 		if(!inputCommand.equalsIgnoreCase(EMPTY_STRING)) {
 			Debugger.print("input command: " + inputCommand);
 			GuiController.AddLine(inputCommand);
 			input.setText(EMPTY_STRING);
+			
 		}
 
 	}
