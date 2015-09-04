@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import logic_eventBased.MainLogic;
-import logic_eventBased.MasterControl;
+import logic_abstractDataType.MainLogic;
+import logic_abstractDataType.MasterControl;
 import logic_pipeFilter.Debugger;
 import logic_pipeFilter.Master;
 

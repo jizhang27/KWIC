@@ -1,4 +1,4 @@
-package logic_eventBased;
+package logic_abstractDataType;
 
 public interface MainLogic {
 	public void initialize();

@@ -1,6 +1,6 @@
 package logic_pipeFilter;
 
-import logic_eventBased.MainLogic;
+import logic_abstractDataType.MainLogic;
 
 /**
  * class Master

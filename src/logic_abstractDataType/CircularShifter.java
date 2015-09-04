@@ -1,4 +1,4 @@
-package logic_eventBased;
+package logic_abstractDataType;
 
 import java.util.Observable;
 import java.util.Observer;

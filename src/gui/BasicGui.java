@@ -78,7 +78,7 @@ public class BasicGui extends JFrame {
 	private final static int INPUT_AREA_HEIGHT = 30;
 
 	String switchBtn_pipeFilter = "Switch to Pipe & Filter Architecture";
-	String switchBtn_ImplicitInvocation = "Switch to Implicit Invocation Architecture";
+	String switchBtn_ImplicitInvocation = "Switch to abstract data type Architecture";
 	String inputWindowHelperText = "Add a new line here & hit enter key";
 	// color info
 	private final static Color COLOR_TITLE_WINDOW_BACK = Color.WHITE;
@@ -371,7 +371,7 @@ public class BasicGui extends JFrame {
 	}
 	private void constructModalDialog() {
 		modalDialog = new JFrame("In Progress");
-		modalDialog.setBounds(100, 200, 800, 400);
+		modalDialog.setBounds(50, 100, 800, 400);
 		modalDialog.setLayout(new BorderLayout());
 		JLabel l = new JLabel("Calculation in progress, please wait! Calculation in progress, please wait!Calculation in progress, please wait! Calculation in progress, please wait!Calculation in progress, please wait! Calculation in progress, please wait!");
 		modalDialog.add(l, BorderLayout.CENTER);
